@@ -169,24 +169,35 @@ def demo():
     with open("resources/metadata/metadata_workflow.json") as f:
         metadata_workflow = json.load(f)
 
-    metadata_workflow_copy = copy.deepcopy(metadata_workflow)
-    metadata_workflow_copy["main"]["workflow"]["stages"][0]["input"][0][
+    metadata_workflow_copy1 = copy.deepcopy(metadata_workflow)
+    metadata_workflow_copy1["main"]["workflow"]["stages"][0]["input"][0][
         "id"
     ] = ddo_compute1.did
-    metadata_workflow_copy["main"]["workflow"]["stages"][0]["input"][1][
-        "id"
-    ] = ddo_compute2.did
-    metadata_workflow_copy["main"]["workflow"]["stages"][0]["transformation"][
+    metadata_workflow_copy1["main"]["workflow"]["stages"][0]["transformation"][
         "id"
     ] = ddo_transformation.did
 
-    ddo_workflow = nevermined.assets.create(
-        metadata_workflow_copy,
+    ddo_workflow1 = nevermined.assets.create(
+        metadata_workflow_copy1,
         ds_account,
         providers=[prov1_account.address, prov2_account.address],
     )
-    assert ddo_workflow is not None, "Creating asset workflow0 on-chain failed"
-    print(f"Created Workflow: {ddo_workflow.did} using account {ds_account.address}")
+    assert ddo_workflow1 is not None, "Creating asset workflow0 on-chain failed"
+    print(f"Created Workflow: {ddo_workflow1.did} using account {ds_account.address}")
+
+    metadata_workflow_copy2 = copy.deepcopy(metadata_workflow)
+    metadata_workflow_copy2["main"]["workflow"]["stages"][0]["input"][0][
+        "id"
+    ] = ddo_compute2.did
+    metadata_workflow_copy2["main"]["workflow"]["stages"][0]["transformation"][
+        "id"
+    ] = ddo_transformation.did
+
+    ddo_workflow2 = nevermined.assets.create(
+        metadata_workflow_copy2,
+        ds_account,
+        providers=[prov1_account.address, prov2_account.address],
+    )
 
     # 8. Order computations
     nevermined.accounts.request_tokens(ds_account, 100)
@@ -235,10 +246,19 @@ def demo():
         ddo_compute1.did,
         service_agreement1.index,
         ds_account,
-        ddo_workflow.did,
+        ddo_workflow1.did,
     )
     print(f"Executed workflow1")
 
+
+    nevermined.assets.execute(
+        agreement_id2,
+        ddo_compute2.did,
+        service_agreement2.index,
+        ds_account,
+        ddo_workflow2.did,
+    )
+    print(f"Executed workflow2")
 
 if __name__ == "__main__":
     demo()
