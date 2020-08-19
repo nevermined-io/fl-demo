@@ -14,11 +14,11 @@ from contracts_lib_py.account import Account
 
 PARITY_ADDRESS = "0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0"
 PARITY_PASSWORD = "secret"
-PARITY_KEYFILE = "key_file_provider_data0.json"
+PARITY_KEYFILE = "resources/accounts/key_file_provider_data0.json"
 
 PARITY_ADDRESS = "0x00Bd138aBD70e2F00903268F3Db08f2D25677C9e"
 PARITY_PASSWORD = "node0"
-PARITY_KEYFILE = "key_file_2.json"
+PARITY_KEYFILE = "resources/accounts/key_file_2.json"
 
 # Disable warnings emitted by web3
 if not sys.warnoptions:
@@ -62,10 +62,10 @@ def demo():
     consumer = acc
 
     # 3. Publish assets
-    with open("metadata0.json") as f:
+    with open("resources/metadata/metadata0.json") as f:
         metadata_data0 = json.load(f)
         metadata_data0["main"]["dateCreated"] = next(date_created)
-    with open("metadata1.json") as f:
+    with open("resources/metadata/metadata1.json") as f:
         metadata_data1 = json.load(f)
         metadata_data1["main"]["dateCreated"] = next(date_created)
 
@@ -87,10 +87,10 @@ def demo():
 
     # 4 Publish compute
     # TODO: We probably also need a compute for the coordinator?
-    with open("metadata_compute0.json") as f:
+    with open("resources/metadata/metadata_compute0.json") as f:
         metadata_compute0 = json.load(f)
         metadata_compute0["main"]["dateCreated"] = next(date_created)
-    with open("metadata_compute1.json") as f:
+    with open("resources/metadata/metadata_compute1.json") as f:
         metadata_compute1 = json.load(f)
         metadata_compute1["main"]["dateCreated"] = next(date_created)
 
@@ -111,7 +111,7 @@ def demo():
     print(f"Created asset compute1: {ddo_compute1.did}")
 
     # 5. Publish algorithm
-    with open("metadata_transformation.json") as f:
+    with open("resources/metadata/metadata_transformation.json") as f:
         metadata_transformation = json.load(f)
         metadata_transformation["main"]["dateCreated"] = next(date_created)
 
@@ -129,7 +129,7 @@ def demo():
     # TODO
 
     # 7. Publish the workflows
-    with open("metadata_workflow.json") as f:
+    with open("resources/metadata/metadata_workflow.json") as f:
         metadata_workflow = json.load(f)
 
     metadata_workflow0 = copy.deepcopy(metadata_workflow)
