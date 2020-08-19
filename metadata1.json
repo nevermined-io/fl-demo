@@ -1,0 +1,20 @@
+{
+  "main": {
+    "name": "Data Part 0",
+    "dateCreated": "2012-02-01T10:55:11Z",
+    "author": "Mario",
+    "license": "CC0: Public Domain",
+    "price": "0",
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/text",
+        "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
+        "checksumType": "MD5",
+        "contentLength": "12057507",
+        "url": "https://raw.githubusercontent.com/keyko-io/nevermined-fl-demo/feature/demo/data_part_1.csv?token=AANVZIYI2HS4UMM3EW725ES7IUPMW"
+      }
+    ],
+    "type": "dataset"
+  }
+}
