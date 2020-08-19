@@ -1,12 +1,12 @@
 {
   "main": {
-    "author": "John Doe",
+    "author": "Data Scientist",
     "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
     "dateCreated": "2019-02-08T08:13:49Z",
     "datePublished": "2019-05-08T08:13:49Z",
     "license": "CC-BY",
     "name": "My workflow",
-    "price": "1",
+    "price": "0",
     "type": "workflow",
     "workflow": {
       "stages": [
@@ -24,6 +24,10 @@
             {
               "index": 0,
               "id": "did:nv:12345"
+            },
+            {
+              "index": 1,
+              "id": "did:nv:67890"
             }
           ],
           "transformation": {
