@@ -2,6 +2,7 @@ import copy
 import datetime
 import json
 import sys
+import time
 
 from common_utils_py.agreements.service_agreement import ServiceAgreement
 from common_utils_py.agreements.service_factory import ServiceDescriptor
@@ -115,7 +116,7 @@ def demo():
     # 4 Publish compute
     # TODO: We probably also need a compute for the coordinator?
 
-    compute_service_attributes = nevermined.assets._build_compute(metadata_compute1,                                                                  prov1_account)
+    compute_service_attributes = nevermined.assets._build_compute(metadata_compute1, prov1_account)
     compute_service_type1 = [ServiceDescriptor.compute_service_descriptor(
         compute_service_attributes, gateway.get_execute_endpoint(nevermined.assets._config))
     ]
@@ -131,7 +132,7 @@ def demo():
     print(f"Created Compute Service {ddo_compute1.did} using account {prov1_account.address}")
 
 
-    compute_service_attributes = nevermined.assets._build_compute(metadata_compute2,                                                                  prov1_account)
+    compute_service_attributes = nevermined.assets._build_compute(metadata_compute2, prov2_account)
     compute_service_type2 = [ServiceDescriptor.compute_service_descriptor(
         compute_service_attributes, gateway.get_execute_endpoint(nevermined.assets._config))
     ]
@@ -196,18 +197,19 @@ def demo():
     ddo_workflow2 = nevermined.assets.create(
         metadata_workflow_copy2,
         ds_account,
-        providers=[prov1_account.address, prov2_account.address],
+        providers=[prov2_account.address, prov1_account.address],
     )
 
     # 8. Order computations
     nevermined.accounts.request_tokens(ds_account, 100)
 
+    ## 8.1 Order Service 1
     service1 = ddo_compute1.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement1 = ServiceAgreement.from_service_dict(service1.as_dictionary())
     agreement_id1 = nevermined.assets.order(
         ddo_compute1.did, service_agreement1.index, ds_account
     )
-    print(f"Placed order for compute service 1: {agreement_id1}")
+    print(f"Placed order for compute service 1: {agreement_id1} using account {ds_account.address}")
 
     event = keeper.lock_reward_condition.subscribe_condition_fulfilled(
         agreement_id1, 60, None, (), wait=True
@@ -215,30 +217,35 @@ def demo():
     assert event is not None, "Lock Reward condition is not found"
     print(f"Lock Reward condition fulfilled for compute1")
 
-    # event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
-    #     agreement_id1, 60, None, (), wait=True
-    # )
-    # assert event is not None, "Execution condition not found"
-    # print(f"Execution condition fulfilled for compute0")
+    # time.sleep(10)
+    event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
+        agreement_id1, 60, None, (), wait=True
+    )
+    assert event is not None, "Execution condition not found"
+    print(f"Execution condition fulfilled for compute1")
 
+
+    ## 8.2 Order Service 2
     service2 = ddo_compute2.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement2 = ServiceAgreement.from_service_dict(service2.as_dictionary())
     agreement_id2 = nevermined.assets.order(
         ddo_compute1.did, service_agreement2.index, ds_account
     )
-    print(f"Placed order for compute service 2: {agreement_id2}")
+    print(f"Placed order for compute service 2: {agreement_id2} using account {ds_account.address}")
 
     event = keeper.lock_reward_condition.subscribe_condition_fulfilled(
-        agreement_id2, 60, None, (), wait=True
+        agreement_id2, 120, None, (), wait=True
     )
     assert event is not None, "Lock Reward condition is not found"
     print(f"Lock Reward condition fulfilled for compute2")
 
-    # event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
-    #     agreement_id1, 60, None, (), wait=True
-    # )
-    # assert event is not None, "Execution condition not found"
-    # print(f"Execution condition fulfilled for compute1")
+    # time.sleep(10)
+    event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
+        agreement_id2, 120, None, (), wait=True
+    )
+    assert event is not None, "Execution condition not found"
+    print(f"Execution condition fulfilled for compute2")
+
 
     # 9. Execute workflows
     nevermined.assets.execute(
@@ -249,7 +256,6 @@ def demo():
         ddo_workflow1.did,
     )
     print(f"Executed workflow1")
-
 
     nevermined.assets.execute(
         agreement_id2,
