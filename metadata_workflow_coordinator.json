@@ -1,0 +1,32 @@
+{
+  "main": {
+    "author": "John Doe",
+    "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
+    "dateCreated": "2012-10-10T17:00:00Z",
+    "datePublished": "2019-04-09T19:02:11Z",
+    "license": "CC-BY",
+    "name": "My workflow",
+    "price": "1",
+    "type": "fl-coordinator",
+    "parameters": {
+      "minParticipants": 1,
+      "participantsRatio": 1,
+      "rounds": 10
+    },
+    "workflow": {
+      "stages": [
+        {
+          "index": 0,
+          "requirements": {
+            "serverInstances": 1,
+            "container": {
+              "image": "rmarques/xain-fl",
+              "tag": "latest",
+              "checksum": "sha256:cb57ecfa6ebbefd8ffc7f75c0f00e57a7fa739578a429b6f72a0df19315deadc"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
