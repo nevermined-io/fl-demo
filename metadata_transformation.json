@@ -21,11 +21,11 @@
       "language": "python",
       "format": "py",
       "version": "0.1",
-      "entrypoint": "python word_count.py*",
+      "entrypoint": "run-participant --data-directory data --coordinator-url http://172.17.0.2:8081 --write-performance-metrics perf.txt",
       "requirements": {
         "container": {
-          "image": "python",
-          "tag": "3.8-alpine",
+          "image": "keykoio/xain-fl-participant",
+          "tag": "latest",
           "checksum": "sha256:53ad3a03b2fb240b6c494339821e6638cd44c989bcf26ec4d51a6a52f7518c1d"
         }
       }
