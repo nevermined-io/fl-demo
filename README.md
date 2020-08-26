@@ -101,6 +101,8 @@ $ flask run --host=0.0.0.0 --port=8030
 
 ```bash
 # Copy the accounts folder from the nevermined-tools repo into the nevermined-compute-api folder
+
+# Copy the artifacts
 $ ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
 
 # Set the environment variables
@@ -115,6 +117,10 @@ $ python -m nevermined_compute_api.run
 5. Using [`nevermined-fl-demo`] run the demo
 
 ```bash
+# Copy the artifacts
+$ ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
+
+# Run the demo
 $ python demo.py
 ```
 
