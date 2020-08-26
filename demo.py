@@ -116,6 +116,8 @@ def demo():
         f"[COORDINATOR_PROVIDER --> NEVERMINED] Publishing coordinator compute asset: {ddo_compute_coordinator.did}"
     )
 
+    print()
+    input("Press Enter to continue...")
     # 5. Publish algorithm
     with open("resources/metadata/metadata_transformation.json") as f:
         metadata_transformation = json.load(f)
@@ -184,6 +186,9 @@ def demo():
         f"[DATA_SCIENTIST --> NEVERMINED] Publishing compute workflow for coordinator: {ddo_workflow_coordinator.did}"
     )
 
+    print()
+    input("Press Enter to continue...")
+
     # 8. Order computations
     service0 = ddo_compute0.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement0 = ServiceAgreement.from_service_dict(service0.as_dictionary())
@@ -245,6 +250,9 @@ def demo():
         agreement_id_coordinator, 60, None, (), wait=True
     )
     assert event is not None, "Execution condition not found"
+
+    print()
+    input("Press Enter to continue...")
 
     # 9. Execute workflows
     nevermined.assets.execute(
