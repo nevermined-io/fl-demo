@@ -1,0 +1,34 @@
+{
+  "main": {
+    "author": "John Doe",
+    "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
+    "dateCreated": "2019-02-08T08:13:49Z",
+    "license": "CC-BY",
+    "name": "My workflow",
+    "price": "1",
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/text",
+        "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
+        "checksumType": "MD5",
+        "contentLength": "12057507",
+        "url": "https://raw.githubusercontent.com/keyko-io/nevermined-sdk-py/ce8a73c5c2392df8ae45ac57d323d41c5e47f9a0/examples/word_count.py?token=AANVZI4HRT26SWZAKD23W7C7IZ4BU"
+      }
+    ],
+    "type": "algorithm",
+    "algorithm": {
+      "language": "python",
+      "format": "py",
+      "version": "0.1",
+      "entrypoint": "run-participant --data-directory data --coordinator-url http://172.17.0.2:8081 --write-performance-metrics $NEVERMINED_OUTPUTS_PATH/perf.txt",
+      "requirements": {
+        "container": {
+          "image": "keykoio/xain-fl-participant",
+          "tag": "latest",
+          "checksum": "sha256:53ad3a03b2fb240b6c494339821e6638cd44c989bcf26ec4d51a6a52f7518c1d"
+        }
+      }
+    }
+  }
+}
