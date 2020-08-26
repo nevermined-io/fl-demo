@@ -114,7 +114,11 @@ export PROVIDER_KEYFILE="./accounts/provider.json"
 $ python -m nevermined_compute_api.run
 ```
 
-5. Using [`nevermined-fl-demo`] run the demo
+5. (Optional) Build the docker images. See [Building the docker
+   images](#building-the-docker-images)
+
+6. Using [`nevermined-fl-demo`](https://github.com/keyko-io/nevermined-fl-demo)
+   run the demo
 
 ```bash
 # Copy the artifacts
@@ -146,3 +150,63 @@ $ minikube service argo-artifacts --url
 Login with the default credentials:
 - Access Key: `AKIAIOSFODNN7EXAMPLE`
 - Secret Key: `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`
+
+## Building the docker images
+
+In case the docker images are not published in the keykoio docker repo or local
+changes were made and we want to test them before publishing the images we need
+to build them locally.
+
+Currently the demo makes use of four docker images:
+- `keykoio/nevermined-pod-config-py:latest` (compute stack)
+- `keykoio/nevermined-pod-publishing-py:latest` (compute stack)
+- `keykoio/xain-fl:latest` (federated learning on the compute stack)
+- `keykoio/xain-fl-participant` (demo)
+
+
+
+Building the
+[`nevermined-pod-config-py`](https://github.com/keyko-io/nevermined-pod-config-py/)
+image:
+
+```bash
+# enter the minikube docker environment
+$ eval $(minikube -p minikube docker-env)
+
+# from the root of the nevermined-pod-config-py repo run
+$ docker build -t keykoio/nevermined-pod-config-py:latest .
+```
+
+Building the
+[`nevermined-pod-publishing-py`](https://github.com/keyko-io/nevermined-pod-publishing-py/)
+image:
+
+```bash
+# enter the minikube docker environment
+$ eval $(minikube -p minikube docker-env)
+
+# from the root of the nevermined-pod-publishing-py repo run
+$ docker build -t keykoio/nevermined-pod-publishing-py:latest .
+```
+
+Building the [`xain-fl`](https://github.com/keyko-io/xain-fl) image:
+
+```bash
+# enter the minikube docker environment
+$ eval $(minikube -p minikube docker-env)
+
+# from the root of the xain-fl repo run
+$ docker build -f docker/Dockerfile -t keykoio/xain-fl:latest .
+```
+
+Building the
+[`xain-fl-participant`](https://github.com/keyko-io/nevermined-fl-demo) image:
+
+```bash
+# enter the minikube docker environment
+$ eval $(minikube -p minikube docker-env)
+
+# from the root of the nevermined-fl-demo repo run
+$ cd keras_house_prices
+$ docker build -t keykoio/xain-fl-participant:latest .
+```
