@@ -25,6 +25,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+
+        wget https://storage.googleapis.com/minikube/releases/v1.12.0/minikube-linux-amd64
+        chmod +x minikube-linux-amd64
+        mv minikube-linux-amd64 /usr/local/bin/minikube
+
         docker system prune --all --volumes -f
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         git clone https://github.com/keyko-io/nevermined-tools
