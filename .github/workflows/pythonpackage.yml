@@ -29,7 +29,7 @@ jobs:
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         git clone https://github.com/keyko-io/nevermined-tools
         cd nevermined-tools
-        git checkout feature/use-docker-host-credentials
+        git checkout test-workflow
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
         # start nevermined with the compute stack
