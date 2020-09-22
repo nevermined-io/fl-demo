@@ -36,7 +36,7 @@ jobs:
 
         mkdir -p /home/runner/.nevermined/nevermined-contracts/artifacts
         touch /home/runner/.nevermined/nevermined-contracts/artifacts/ready
-        MINIKUBE_DRIVER=docker ./scripts/setup_minikube.sh
+        MINIKUBE_DRIVER=docker INSTALL_KUBECTL=true ./scripts/setup_minikube.sh
 
         # wait for the compute api to be online.
         # the compute api is the last service to come online
