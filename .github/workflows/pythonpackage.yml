@@ -33,6 +33,8 @@ jobs:
 
         # start nevermined with the compute stack
         #bash -x start_nevermined.sh --latest --no-commons --local-spree-node --events-handler --compute
+
+        touch /home/runner/.nevermined/nevermined-contracts/artifacts/ready
         MINIKUBE_DRIVER=docker ./scripts/setup_minikube.sh
 
         # wait for the compute api to be online.
