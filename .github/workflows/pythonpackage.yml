@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
+        git clone https://github.com/keyko-io/nevermined-tools
+        cd nevermined-tools
+        git checkout feature/use-docker-host-credentials
+        rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+
+        # start nevermined with the compute stack
+        bash -x start_nevermined.sh --latest --no-commons --local-spree-node --events-handler \
+            --compute 2>&1 > start_nevermined.log &
+
+        # wait for the compute api to be online.
+        # the compute api is the last service to come online
+        ./scripts/wait_for_compute_api.sh
+
+        # extract contracts
+        cd ..
+        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
+
+        # install python package
+        python -m pip install --upgrade pip
+        pip install .[dev]
+    - name: Test with pytest
+      run: |
+        pytest -vs
