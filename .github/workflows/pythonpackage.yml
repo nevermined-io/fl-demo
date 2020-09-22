@@ -33,6 +33,11 @@ jobs:
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
         # start nevermined with the compute stack
+        export MINIKUBE_DRIVER=docker
+        export INSTALL_KUBECTL=false
+        export INSTALL_HELM=false
+        export MINIKUBE_RECREATE=false
+
         ./start_nevermined.sh --latest --no-commons --local-spree-node --events-handler --compute & #2>&1 > start_nevermined.log &
 
         # wait for the compute api to be online.
