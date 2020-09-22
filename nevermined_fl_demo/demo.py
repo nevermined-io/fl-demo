@@ -1,16 +1,18 @@
+"""Main demo code"""
+
 import copy
-import datetime
 import json
 import sys
-import time
 
 from common_utils_py.agreements.service_agreement import ServiceAgreement
 from common_utils_py.agreements.service_types import ServiceTypes
 from contracts_lib_py.account import Account
 from web3 import Web3
-
 from nevermined_sdk_py import Config, Nevermined
 from nevermined_sdk_py.nevermined.keeper import NeverminedKeeper as Keeper
+
+from nevermined_fl_demo.utils import dates_generator, wait_for_compute_jobs
+from nevermined_fl_demo.download import download
 
 PARITY_ADDRESS = "0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0"
 PARITY_PASSWORD = "secret"
@@ -23,48 +25,20 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
 
-# this is so that we can change the `dateCreated` field in the ddos so that we
-# avoid problems with duplicated ddos when running the demo
-def dates_generator():
-    now = datetime.datetime.utcnow()
-    delta = datetime.timedelta(seconds=1)
-    while True:
-        now += delta
-        yield now.isoformat(timespec="seconds") + "Z"
-
-
-def wait_for_compute_jobs(nevermined, account, jobs):
-    failed = False
-    while True:
-        finished = 0
-
-        for i, (sa_id, job_id) in enumerate(jobs):
-            status = nevermined.assets.compute_status(sa_id, job_id, account)["status"]
-            print(f"{job_id}: {status}")
-
-            if status == "Failed":
-                failed = False
-            if status == "Succeeded":
-                finished += 1
-
-        if failed:
-            return False
-        if finished == len(jobs):
-            return True
-        # move up 4 lines
-        print("\u001B[4A")
-        time.sleep(5)
-
-
 def demo():
-    # 1. Setup nevermined
-    # 2. Setup accounts
-    # 3. Publish assets
-    # 4. Publish compute?
-    # 5. Publish algorithm
-    # 6. Start coordinator
-    # 7. Publish workflows
-    # 8. Order assets and execute computations
+    """The Nevermined Federated Learning demo.
+
+    This demo showcases the nevermined Federated Learning capabilities.
+    FLow:
+        1. Setup nevermined
+        2. Setup accounts
+        3. Publish compute to the data assets
+        4. Publish algorithm
+        5. Publish workflows
+        6. Order computations
+        7. Execute workflows
+
+    """
 
     print("Setting up...\n")
 
@@ -123,7 +97,7 @@ def demo():
         f"[COORDINATOR_PROVIDER --> NEVERMINED] Publishing coordinator compute asset: {ddo_compute_coordinator.did}"
     )
 
-    # 5. Publish algorithm
+    # 4. Publish algorithm
     with open("resources/metadata/metadata_transformation.json") as f:
         metadata_transformation = json.load(f)
         metadata_transformation["main"]["dateCreated"] = next(date_created)
@@ -138,7 +112,7 @@ def demo():
         f"[DATA_SCIENTIST --> NEVERMINED] Publishing algorithm asset: {ddo_transformation.did}"
     )
 
-    # 7. Publish the workflows
+    # 5. Publish the workflows
     with open("resources/metadata/metadata_workflow.json") as f:
         metadata_workflow = json.load(f)
     with open("resources/metadata/metadata_workflow_coordinator.json") as f:
@@ -188,7 +162,7 @@ def demo():
         f"[DATA_SCIENTIST --> NEVERMINED] Publishing compute workflow for coordinator: {ddo_workflow_coordinator.did}"
     )
 
-    # 8. Order computations
+    # 6. Order computations
     service0 = ddo_compute0.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement0 = ServiceAgreement.from_service_dict(service0.as_dictionary())
     agreement_id0 = nevermined.assets.order(
@@ -250,7 +224,7 @@ def demo():
     )
     assert event is not None, "Execution condition not found"
 
-    # 9. Execute workflows
+    # 7. Execute workflows
     compute_coordinator_id = nevermined.assets.execute(
         agreement_id_coordinator,
         ddo_compute_coordinator.did,
@@ -289,9 +263,31 @@ def demo():
         (agreement_id0, compute_asset0_id),
         (agreement_id1, compute_asset1_id),
     ]
+    return jobs
+
+
+def main():
+    """Main routine that calls the demo and waits for the results of the compute
+    jobs.
+
+    """
+    jobs = demo()
+
+    acc = Account(
+        Web3.toChecksumAddress(PARITY_ADDRESS), PARITY_PASSWORD, PARITY_KEYFILE
+    )
+    nevermined = Nevermined(Config("config.ini"))
+
     print("Waiting for compute jobs...\n")
-    wait_for_compute_jobs(nevermined, acc, jobs)
+    try:
+        dids = wait_for_compute_jobs(nevermined, acc, jobs)
+    except ValueError:
+        print("Some jobs have failed!")
+
+    print("All jobs finished successfully!\n")
+    print("Downloading data assets...")
+    download(nevermined, acc, dids)
 
 
 if __name__ == "__main__":
-    demo()
+    main()
