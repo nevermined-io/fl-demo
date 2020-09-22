@@ -29,15 +29,10 @@ jobs:
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
         git clone https://github.com/keyko-io/nevermined-tools
         cd nevermined-tools
-        git checkout test-workflow
+        git checkout feature/use-docker-host-credentials
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
         # start nevermined with the compute stack
-        export MINIKUBE_DRIVER=docker
-        export INSTALL_KUBECTL=false
-        export INSTALL_HELM=false
-        export MINIKUBE_RECREATE=false
-
         ./start_nevermined.sh --latest --no-commons --local-spree-node --events-handler --compute & #2>&1 > start_nevermined.log &
 
         # wait for the compute api to be online.
