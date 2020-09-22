@@ -38,7 +38,7 @@ jobs:
         touch /home/runner/.nevermined/nevermined-contracts/artifacts/ready
         echo $(uname)
         echo $(cat /etc/os-release | awk -F '=' '/^NAME/{print $2}' | awk '{print $1}' | tr -d '"')
-        kubectl version
+        # kubectl version
         minikube version
         MINIKUBE_DRIVER=docker INSTALL_KUBECTL=true ./scripts/setup_minikube.sh
 
