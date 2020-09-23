@@ -3,8 +3,9 @@ LABEL maintainer="Keyko <root@keyko.io>"
 
 ARG VERSION
 
-# lets cache tensorflow to reduce build time
-RUN pip install tensorflow==2.2.0
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
 
 COPY . /xain-participant
 WORKDIR /xain-participant

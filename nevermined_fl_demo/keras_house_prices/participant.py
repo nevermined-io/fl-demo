@@ -13,7 +13,7 @@ import pandas as pd
 from tabulate import tabulate
 from xain_sdk import ParticipantABC, configure_logging, run_participant
 
-from keras_house_prices.regressor import Regressor
+from nevermined_fl_demo.keras_house_prices.regressor import Regressor
 
 LOG = logging.getLogger(__name__)
 

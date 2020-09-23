@@ -1,15 +1,18 @@
+"""Main demo code"""
+
 import copy
-import datetime
 import json
 import sys
-import uuid
 
 from common_utils_py.agreements.service_agreement import ServiceAgreement
 from common_utils_py.agreements.service_types import ServiceTypes
 from contracts_lib_py.account import Account
+from web3 import Web3
 from nevermined_sdk_py import Config, Nevermined
 from nevermined_sdk_py.nevermined.keeper import NeverminedKeeper as Keeper
-from web3 import Web3
+
+from nevermined_fl_demo.utils import dates_generator, wait_for_compute_jobs
+from nevermined_fl_demo.download import download
 
 PARITY_ADDRESS = "0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0"
 PARITY_PASSWORD = "secret"
@@ -22,25 +25,20 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
 
-# this is so that we can change the `dateCreated` field in the ddos so that we
-# avoid problems with duplicated ddos when running the demo
-def dates_generator():
-    now = datetime.datetime.utcnow()
-    delta = datetime.timedelta(seconds=1)
-    while True:
-        now += delta
-        yield now.isoformat(timespec="seconds") + "Z"
-
-
 def demo():
-    # 1. Setup nevermined
-    # 2. Setup accounts
-    # 3. Publish assets
-    # 4. Publish compute?
-    # 5. Publish algorithm
-    # 6. Start coordinator
-    # 7. Publish workflows
-    # 8. Order assets and execute computations
+    """The Nevermined Federated Learning demo.
+
+    This demo showcases the nevermined Federated Learning capabilities.
+    FLow:
+        1. Setup nevermined
+        2. Setup accounts
+        3. Publish compute to the data assets
+        4. Publish algorithm
+        5. Publish workflows
+        6. Order computations
+        7. Execute workflows
+
+    """
 
     print("Setting up...\n")
 
@@ -61,7 +59,7 @@ def demo():
     provider_coordinator = acc
     consumer = acc
 
-    # 3. Publish assets
+    # 3. Publish compute to the data
     with open("resources/metadata/metadata0.json") as f:
         metadata_data0 = json.load(f)
         metadata_data0["main"]["dateCreated"] = next(date_created)
@@ -69,44 +67,27 @@ def demo():
         metadata_data1 = json.load(f)
         metadata_data1["main"]["dateCreated"] = next(date_created)
 
-    ddo_data0 = nevermined.assets.create(
+    ddo_compute0 = nevermined.assets.create_compute(
         metadata_data0, provider_data0, providers=[provider],
-    )
-    assert ddo_data0 is not None, "Creating asset data0 on-chain failed"
-
-    ddo_data1 = nevermined.assets.create(
-        metadata_data1, provider_data1, providers=[provider],
-    )
-    assert ddo_data1 is not None, "Creating asset data1 on-chain failed"
-
-    # 4 Publish compute
-    with open("resources/metadata/metadata_compute0.json") as f:
-        metadata_compute0 = json.load(f)
-        metadata_compute0["main"]["dateCreated"] = next(date_created)
-    with open("resources/metadata/metadata_compute1.json") as f:
-        metadata_compute1 = json.load(f)
-        metadata_compute1["main"]["dateCreated"] = next(date_created)
-    with open("resources/metadata/metadata_compute_coordinator.json") as f:
-        metadata_compute_coordinator = json.load(f)
-        metadata_compute_coordinator["main"]["dateCreated"] = next(date_created)
-
-    ddo_compute0 = nevermined.assets.create(
-        metadata_compute0, provider_data0, providers=[provider],
     )
     assert ddo_compute0 is not None, "Creating asset compute0 on-chain failed"
     print(
         f"[DATA_PROVIDER0 --> NEVERMINED] Publishing compute to the data asset for asset0: {ddo_compute0.did}"
     )
 
-    ddo_compute1 = nevermined.assets.create(
-        metadata_compute1, provider_data1, providers=[provider],
+    ddo_compute1 = nevermined.assets.create_compute(
+        metadata_data1, provider_data1, providers=[provider],
     )
     assert ddo_compute1 is not None, "Creating asset compute1 on-chain failed"
     print(
         f"[DATA_PROVIDER1 --> NEVERMINED] Publishing compute to the data asset for asset1: {ddo_compute1.did}"
     )
 
-    ddo_compute_coordinator = nevermined.assets.create(
+    with open("resources/metadata/metadata_compute_coordinator.json") as f:
+        metadata_compute_coordinator = json.load(f)
+        metadata_compute_coordinator["main"]["dateCreated"] = next(date_created)
+
+    ddo_compute_coordinator = nevermined.assets.create_compute(
         metadata_compute_coordinator, provider_coordinator, providers=[provider],
     )
     assert (
@@ -116,9 +97,7 @@ def demo():
         f"[COORDINATOR_PROVIDER --> NEVERMINED] Publishing coordinator compute asset: {ddo_compute_coordinator.did}"
     )
 
-    print()
-    input("Press Enter to continue...")
-    # 5. Publish algorithm
+    # 4. Publish algorithm
     with open("resources/metadata/metadata_transformation.json") as f:
         metadata_transformation = json.load(f)
         metadata_transformation["main"]["dateCreated"] = next(date_created)
@@ -133,10 +112,7 @@ def demo():
         f"[DATA_SCIENTIST --> NEVERMINED] Publishing algorithm asset: {ddo_transformation.did}"
     )
 
-    # 6. Start coordinator
-    # TODO
-
-    # 7. Publish the workflows
+    # 5. Publish the workflows
     with open("resources/metadata/metadata_workflow.json") as f:
         metadata_workflow = json.load(f)
     with open("resources/metadata/metadata_workflow_coordinator.json") as f:
@@ -145,7 +121,7 @@ def demo():
     metadata_workflow0 = copy.deepcopy(metadata_workflow)
     metadata_workflow0["main"]["workflow"]["stages"][0]["input"][0][
         "id"
-    ] = ddo_data0.did
+    ] = ddo_compute0.did
     metadata_workflow0["main"]["workflow"]["stages"][0]["transformation"][
         "id"
     ] = ddo_transformation.did
@@ -153,7 +129,7 @@ def demo():
     metadata_workflow1 = copy.deepcopy(metadata_workflow)
     metadata_workflow1["main"]["workflow"]["stages"][0]["input"][0][
         "id"
-    ] = ddo_data1.did
+    ] = ddo_compute1.did
     metadata_workflow1["main"]["workflow"]["stages"][0]["transformation"][
         "id"
     ] = ddo_transformation.did
@@ -186,10 +162,7 @@ def demo():
         f"[DATA_SCIENTIST --> NEVERMINED] Publishing compute workflow for coordinator: {ddo_workflow_coordinator.did}"
     )
 
-    print()
-    input("Press Enter to continue...")
-
-    # 8. Order computations
+    # 6. Order computations
     service0 = ddo_compute0.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement0 = ServiceAgreement.from_service_dict(service0.as_dictionary())
     agreement_id0 = nevermined.assets.order(
@@ -251,46 +224,70 @@ def demo():
     )
     assert event is not None, "Execution condition not found"
 
-    print()
-    input("Press Enter to continue...")
-
-    # 9. Execute workflows
-    nevermined.assets.execute(
+    # 7. Execute workflows
+    compute_coordinator_id = nevermined.assets.execute(
         agreement_id_coordinator,
         ddo_compute_coordinator.did,
         service_agreement_coordinator.index,
         consumer,
         ddo_workflow_coordinator.did,
     )
-    # print(f"Executed workflow_coordinator")
     print(
-        f"[DATA_SCIENTIST --> COORDINATOR_PROVIDER] Requesting execution for coordinator compute"
+        f"[DATA_SCIENTIST --> COORDINATOR_PROVIDER] Requesting execution for coordinator compute: {compute_coordinator_id}"
     )
 
-    nevermined.assets.execute(
+    compute_asset0_id = nevermined.assets.execute(
         agreement_id0,
         ddo_compute0.did,
         service_agreement0.index,
         consumer,
         ddo_workflow0.did,
     )
-    # print(f"Executed workflow0")
     print(
-        f"[DATA_SCIENTIST --> DATA_PROVIDER0] Requesting execution for compute to data for asset0"
+        f"[DATA_SCIENTIST --> DATA_PROVIDER0] Requesting execution for compute to data for asset0: {compute_asset0_id}"
     )
 
-    nevermined.assets.execute(
+    compute_asset1_id = nevermined.assets.execute(
         agreement_id1,
         ddo_compute1.did,
         service_agreement1.index,
         consumer,
         ddo_workflow1.did,
     )
-    # print(f"Executed workflow1")
     print(
-        f"[DATA_SCIENTIST --> DATA_PROVIDER1] Requesting execution for compute to data for asset1"
+        f"[DATA_SCIENTIST --> DATA_PROVIDER1] Requesting execution for compute to data for asset1: {compute_asset1_id}"
     )
+
+    jobs = [
+        (agreement_id_coordinator, compute_coordinator_id),
+        (agreement_id0, compute_asset0_id),
+        (agreement_id1, compute_asset1_id),
+    ]
+    return jobs
+
+
+def main():
+    """Main routine that calls the demo and waits for the results of the compute
+    jobs.
+
+    """
+    jobs = demo()
+
+    acc = Account(
+        Web3.toChecksumAddress(PARITY_ADDRESS), PARITY_PASSWORD, PARITY_KEYFILE
+    )
+    nevermined = Nevermined(Config("config.ini"))
+
+    print("Waiting for compute jobs...\n")
+    try:
+        dids = wait_for_compute_jobs(nevermined, acc, jobs)
+    except ValueError:
+        print("Some jobs have failed!")
+
+    print("All jobs finished successfully!\n")
+    print("Downloading data assets...")
+    download(nevermined, acc, dids)
 
 
 if __name__ == "__main__":
-    demo()
+    main()

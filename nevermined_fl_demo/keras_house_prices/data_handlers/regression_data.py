@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-from keras_house_prices.data_handlers.data_handler import DataHandler
+from nevermined_fl_demo.keras_house_prices.data_handlers.data_handler import DataHandler
 
 LOG = logging.getLogger(__name__)
 
