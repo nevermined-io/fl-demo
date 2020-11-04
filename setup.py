@@ -31,8 +31,8 @@ dev_requirements = []
 docs_requirements = []
 
 setup(
-    author="keyko-io",
-    author_email="root@keyko.io",
+    author="nevermined-io",
+    author_email="root@nevermined.io",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
@@ -56,7 +56,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     setup_requires=setup_requirements,
     tests_require=test_requirements,
-    url="https://github.com/keyko-io/nevermined-fl-demo",
+    url="https://github.com/nevermined-io/fl-demo",
     version="0.1.0",
     zip_safe=False,
     entry_points={

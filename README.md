@@ -1,8 +1,8 @@
-[![banner](https://raw.githubusercontent.com/keyko-io/assets/master/images/logo/nevermined_logo_1.png)](https://nevermined.io)
+[![banner](https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png)](https://nevermined.io)
 
 # Nevermined Federated Learning Demo
 
-![Python Package](https://github.com/keyko-io/nevermined-fl-demo/workflows/Python%20package/badge.svg?branch=master)
+![Python Package](https://github.com/nevermined-io/fl-demo/workflows/Python%20package/badge.svg?branch=master)
 
 ## Description
 
@@ -42,7 +42,7 @@ and split into two.
 
 ## Setup
 
-1. Using [`nevermined-tools`](https://github.com/keyko-io/nevermined-tools)
+1. Using [`nevermined-tools`](https://github.com/nevermined-io/tools)
    start the nevermined network with the compute stack and wait for everything
    to be online
 
@@ -53,7 +53,7 @@ $ ./start_nevermined.sh --latest --no-commons --local-spree-node --events-handle
 $ ./scripts/wait_for_compute_api.sh
 ```
 
-2. Using [`nevermined-fl-demo`](https://github.com/keyko-io/nevermined-fl-demo)
+2. Using [`nevermined-fl-demo`](https://github.com/nevermined-io/fl-demo)
    run the demo
 
 ```bash
