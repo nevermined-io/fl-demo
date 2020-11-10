@@ -1,5 +1,5 @@
 FROM python:3.8-slim-buster
-LABEL maintainer="Keyko <root@keyko.io>"
+LABEL maintainer="Nevermined <root@nevermined.io>"
 
 ARG VERSION
 
