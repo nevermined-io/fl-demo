@@ -9,7 +9,7 @@ with open("README.md") as readme_file:
     readme = readme_file.read()
 
 install_requirements = [
-    "nevermined-sdk-py==0.4.2",
+    "nevermined-sdk-py==0.5.0",
     "joblib==0.14.1",
     "pandas==1.0.1",
     "py7zr==0.4.4",

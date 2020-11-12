@@ -35,7 +35,7 @@ jobs:
       run: |
 
         docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
-        git clone https://github.com/keyko-io/nevermined-tools
+        git clone https://github.com/nevermined-io/tools nevermined-tools
         cd nevermined-tools
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
