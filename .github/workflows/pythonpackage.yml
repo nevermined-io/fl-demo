@@ -46,6 +46,10 @@ jobs:
         # the compute api is the last service to come online
         ./scripts/wait_for_compute_api.sh
 
+  house-prices-xain:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Install house-prices-xain dependencies
       run: |
         cd house-prices-xain
@@ -57,6 +61,9 @@ jobs:
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         pytest -vs
 
+  fraud-detection-sherpa:
+    needs: build
+    runs-on: ubuntu-latest
     - name: Install fraud-detection-sherpa dependencies
       run: |
         cd fraud-detection-sherpa
