@@ -40,7 +40,7 @@ jobs:
         rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
 
         # start nevermined with the compute stack
-        ./start_nevermined.sh --latest --no-commons --local-spree-node --events-handler --compute &
+        ./start_nevermined.sh --latest --no-marketplace --local-spree-node --events-handler --compute &
 
         # wait for the compute api to be online.
         # the compute api is the last service to come online
