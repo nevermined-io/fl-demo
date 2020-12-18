@@ -53,9 +53,9 @@ jobs:
         pip install .[dev]
     - name: Test house-prices-xain
       run: |
+        cd house-prices-xain
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         pytest -vs
-        cd ..
 
     - name: Install fraud-detection-sherpa dependencies
       run: |
@@ -64,6 +64,6 @@ jobs:
         pip install -r requirements.txt
     - name: Test house-prices-xain
       run: |
+        cd fraud-detection-sherpa
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         KEEPER_PATH=$(pwd)/artifacts pytest -vs
-        cd ..
