@@ -64,6 +64,7 @@ jobs:
   fraud-detection-sherpa:
     needs: build
     runs-on: ubuntu-latest
+    steps:
     - name: Install fraud-detection-sherpa dependencies
       run: |
         cd fraud-detection-sherpa
