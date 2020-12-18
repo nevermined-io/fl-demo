@@ -46,14 +46,24 @@ jobs:
         # the compute api is the last service to come online
         ./scripts/wait_for_compute_api.sh
 
-        # extract contracts
-        cd ..
-        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
-
-    - name: Install python package
+    - name: Install house-prices-xain dependencies
       run: |
-        python -m pip install --upgrade pip
+        cd house-prices-xain
+        pip install pip==20.2.4
         pip install .[dev]
-    - name: Test with pytest
+    - name: Test house-prices-xain
       run: |
+        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         pytest -vs
+        cd ..
+
+    - name: Install fraud-detection-sherpa dependencies
+      run: |
+        cd fraud-detection-sherpa
+        pip install pip==20.2.4
+        pip install -r requirements.txt
+    - name: Test house-prices-xain
+      run: |
+        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
+        KEEPER_PATH=$(pwd)/artifacts pytest -vs
+        cd ..
