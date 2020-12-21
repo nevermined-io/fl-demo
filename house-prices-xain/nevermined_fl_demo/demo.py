@@ -177,6 +177,11 @@ def demo():
     )
     assert event is not None, "Reward condition is not found"
 
+    event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
+        agreement_id0, 60, None, (), wait=True
+    )
+    assert event is not None, "Execution condition not found"
+
     service1 = ddo_compute1.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement1 = ServiceAgreement.from_service_dict(service1.as_dictionary())
     agreement_id1 = nevermined.assets.order(
@@ -190,6 +195,11 @@ def demo():
         agreement_id1, 60, None, (), wait=True
     )
     assert event is not None, "Reward condition is not found"
+
+    event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
+        agreement_id1, 60, None, (), wait=True
+    )
+    assert event is not None, "Execution condition not found"
 
     service_coordinator = ddo_compute_coordinator.get_service(
         service_type=ServiceTypes.CLOUD_COMPUTE
@@ -208,6 +218,11 @@ def demo():
         agreement_id_coordinator, 60, None, (), wait=True
     )
     assert event is not None, "Reward condition is not found"
+
+    event = keeper.compute_execution_condition.subscribe_condition_fulfilled(
+        agreement_id_coordinator, 60, None, (), wait=True
+    )
+    assert event is not None, "Execution condition not found"
 
     # 7. Execute workflows
     compute_coordinator_id = nevermined.assets.execute(
