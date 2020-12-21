@@ -64,7 +64,7 @@ jobs:
         cd fraud-detection-sherpa
         pip install pip==20.2.4
         pip install -r requirements.txt
-    - name: Test house-prices-xain
+    - name: Test fraud-detection-sherpa
       run: |
         cd fraud-detection-sherpa
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
