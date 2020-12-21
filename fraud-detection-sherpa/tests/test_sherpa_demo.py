@@ -23,7 +23,6 @@ def test_sherpa_demo():
         "/tmp/out.ipynb",
         progress_bar=False,
         stdout_file=sys.stdout,
-        kernel_name="python",
         parameters={
             "CONFIG_FILE": config_file_path,
             "PROVIDER_KEYFILE": provider_keyfile_path,
@@ -53,7 +52,6 @@ def test_sherpa_demo():
         "/tmp/out.ipynb",
         progress_bar=False,
         stdout_file=sys.stdout,
-        kernel_name="python",
         parameters={
             "CONFIG_FILE": config_file_path,
             "CONSUMER_KEYFILE": consumer_keyfile_path,
