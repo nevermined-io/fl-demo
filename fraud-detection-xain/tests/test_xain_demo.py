@@ -29,6 +29,9 @@ def test_sherpa_demo():
         },
     )
 
+    assert result["metadata"]["papermill"]["exception"] is None
+
+
     # get the compute did. the notebook cell are tagged
     compute1_did = None
     compute2_did = None
@@ -38,8 +41,8 @@ def test_sherpa_demo():
             compute1_did = cell["outputs"][0]["text"].strip().split()[-1]
         elif "compute2_did" in cell["metadata"]["tags"]:
             compute2_did = cell["outputs"][0]["text"].strip().split()[-1]
-        elif "compute2_did" in cell["metadata"]["tags"]:
-            compute2_did = cell["outputs"][0]["text"].strip().split()[-1]
+        elif "compute3_did" in cell["metadata"]["tags"]:
+            compute3_did = cell["outputs"][0]["text"].strip().split()[-1]
 
     # 2. run consumer notebook
     notebook_path = (
