@@ -69,3 +69,14 @@ jobs:
         cd fraud-detection-sherpa
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         KEEPER_PATH=$(pwd)/artifacts pytest -vs
+
+    - name: Install fraud-detection-xain dependencies
+      run: |
+        cd fraud-detection-xain
+        pip install pip==20.2.4
+        pip install -r requirements.txt
+    - name: Test fraud-detection-xain
+      run: |
+        cd fraud-detection-xain
+        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
+        KEEPER_PATH=$(pwd)/artifacts pytest -vs

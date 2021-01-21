@@ -2,5 +2,4 @@ nevermined-sdk-py==0.7.0
 pytest~=6.0.2
 papermill~=2.2.2
 jupyter~=1.0.0
-shfl==0.1.0
 xain-sdk==0.8.0
