@@ -1,4 +1,4 @@
-# House Prices Federated Learning Demo
+# Creditcard Fraud Detection Federated Learning Demo
 
 ## Description
 
