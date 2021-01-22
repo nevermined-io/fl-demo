@@ -16,7 +16,7 @@ and split into two.
 
 ## Use Case
 
-![Demo architecture](images/fl-demo-architecture.png)
+![Demo architecture](./images/fl-demo-architecture.png)
 
 1. Two Data Providers publish their respective datasets
 2. A Data Scientist discovers the assets and purchases permission to run
