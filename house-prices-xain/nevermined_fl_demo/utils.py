@@ -47,14 +47,16 @@ def wait_for_compute_jobs(nevermined, account, jobs):
             print(f"{job_id}: {status['status']}")
 
             if status["status"] == "Failed":
-                logs = nevermined.assets.compute_logs(sa_id, job_id, account)
-                print(logs)
                 failed = True
             if status["status"] == "Succeeded":
                 finished += 1
                 dids.add(status["did"])
 
         if failed:
+            for i, (sa_id, job_id) in enumerate(jobs):
+                logs = nevermined.assets.compute_logs(sa_id, job_id, account)
+                for line in logs:
+                    print(f"[{line['podName']}]: {line['content']}")
             raise ValueError("Some jobs failed")
         if finished == len(jobs):
             break
