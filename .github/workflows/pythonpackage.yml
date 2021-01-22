@@ -10,13 +10,11 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  house-prices-xain:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.7]
-
 
     steps:
     - uses: actions/checkout@v2
@@ -59,6 +57,42 @@ jobs:
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         pytest -vs
 
+  fraud-detection-sherpa:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install minikube v1.12.0
+      run: |
+        wget https://storage.googleapis.com/minikube/releases/v1.12.0/minikube-linux-amd64
+        chmod +x minikube-linux-amd64
+        sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+    - name: Reclaim some disk space
+      run : |
+          docker system prune --all --volumes -f
+    - name: Start Nevermined
+      run: |
+
+        docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
+        git clone https://github.com/nevermined-io/tools nevermined-tools
+        cd nevermined-tools
+        rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+
+        # start nevermined with the compute stack
+        ./start_nevermined.sh --latest --no-marketplace --local-spree-node --events-handler --compute &
+
+        # wait for the compute api to be online.
+        # the compute api is the last service to come online
+        ./scripts/wait_for_compute_api.sh
+
     - name: Install fraud-detection-sherpa dependencies
       run: |
         cd fraud-detection-sherpa
@@ -67,5 +101,51 @@ jobs:
     - name: Test fraud-detection-sherpa
       run: |
         cd fraud-detection-sherpa
+        ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
+        KEEPER_PATH=$(pwd)/artifacts pytest -vs
+
+  fraud-detection-xain:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install minikube v1.12.0
+      run: |
+        wget https://storage.googleapis.com/minikube/releases/v1.12.0/minikube-linux-amd64
+        chmod +x minikube-linux-amd64
+        sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+    - name: Reclaim some disk space
+      run : |
+          docker system prune --all --volumes -f
+    - name: Start Nevermined
+      run: |
+
+        docker login -u ${{ secrets.NEVERMINED_DOCKER_USERNAME }} -p ${{ secrets.NEVERMINED_DOCKER_TOKEN}}
+        git clone https://github.com/nevermined-io/tools nevermined-tools
+        cd nevermined-tools
+        rm -rf "${HOME}/.nevermined/nevermined-contracts/artifacts"
+
+        # start nevermined with the compute stack
+        ./start_nevermined.sh --latest --no-marketplace --local-spree-node --events-handler --compute &
+
+        # wait for the compute api to be online.
+        # the compute api is the last service to come online
+        ./scripts/wait_for_compute_api.sh
+    - name: Install fraud-detection-xain dependencies
+      run: |
+        cd fraud-detection-xain
+        pip install pip==20.2.4
+        pip install -r requirements.txt
+    - name: Test fraud-detection-xain
+      run: |
+        cd fraud-detection-xain
         ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
         KEEPER_PATH=$(pwd)/artifacts pytest -vs

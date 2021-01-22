@@ -29,12 +29,20 @@ def test_sherpa_demo():
         },
     )
 
-    # get the compute did. the notebook cell is tagged with `compute_did`
-    compute_did = None
+    assert result["metadata"]["papermill"]["exception"] is None
+
+
+    # get the compute did. the notebook cell are tagged
+    compute1_did = None
+    compute2_did = None
+    compute3_did = None
     for cell in result["cells"]:
-        if "compute_did" in cell["metadata"]["tags"]:
-            compute_did = cell["outputs"][0]["text"].strip().split()[-1]
-    print(f"COMPUTE_DID: {compute_did}")
+        if "compute1_did" in cell["metadata"]["tags"]:
+            compute1_did = cell["outputs"][0]["text"].strip().split()[-1]
+        elif "compute2_did" in cell["metadata"]["tags"]:
+            compute2_did = cell["outputs"][0]["text"].strip().split()[-1]
+        elif "compute3_did" in cell["metadata"]["tags"]:
+            compute3_did = cell["outputs"][0]["text"].strip().split()[-1]
 
     # 2. run consumer notebook
     notebook_path = (
@@ -55,7 +63,9 @@ def test_sherpa_demo():
         parameters={
             "CONFIG_FILE": config_file_path,
             "CONSUMER_KEYFILE": consumer_keyfile_path,
-            "ASSET_DID": compute_did,
+            "ASSET_COMPUTE_DID_1": compute1_did,
+            "ASSET_COMPUTE_DID_2": compute2_did,
+            "ASSET_COORDINATOR_DID": compute3_did
         },
     )
 

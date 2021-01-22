@@ -1,22 +1,17 @@
-# House Prices Federated Learning Demo
+# Creditcard Fraud Detection Federated Learning Demo
 
 ## Description
 
 In this demo we will be using version 0.8 of the [XAIN Federated Learning
-Framework](https://github.com/xaynetwork/xaynet/tree/v0.8.0) as we will also
-use their
-[`keras_house_prices`](https://github.com/xaynetwork/xaynet/tree/v0.8.0/python/client_examples/keras_house_prices)
-example as a base.
+Framework](https://github.com/xaynetwork/xaynet/tree/v0.8.0).
 
-In this particular example the goal of the model to train is to predict the
-final price of houses given two different datasets describing several
-characteristics of residential homes. This dataset was downloaded from
-[kaggle](https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data)
+In this particular example the goal of the model to train is to detect fraudulent credit card transactions given two different datasets. This dataset was downloaded from
+[kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 and split into two.
 
 ## Use Case
 
-![Demo architecture](./images/fl-demo-architecture.png)
+![Demo architecture](images/fl-demo-architecture.png)
 
 1. Two Data Providers publish their respective datasets
 2. A Data Scientist discovers the assets and purchases permission to run
@@ -39,25 +34,38 @@ and split into two.
    to be online
 
 ```bash
-$ ./start_nevermined.sh --latest --no-commons --local-spree-node --events-handler --compute
+$ ./start_nevermined.sh --latest --no-marketplace --local-spree-node --events-handler --compute
 
 # in another terminal
 $ ./scripts/wait_for_compute_api.sh
 ```
 
-2. Using [`nevermined-fl-demo`](https://github.com/nevermined-io/fl-demo)
-   run the demo
+2. Inside the [`fraud-detection-xain`](https://github.com/nevermined-io/fl-demo/tree/master/fraud-detection-xain)
+   setup the demo
 
 ```bash
 # Install the demo
-$ pip install .
+$ pip -r requirements.txt
 
 # Copy the artifacts
 $ ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
-
-# Run the demo
-$ nevermined-fl-demo
 ```
+
+## Running the Demo
+
+The demo contains three jupyter notebooks
+
+- [nevermined_provider.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-xain/notebooks/nevermined_provider.ipynb): shows how data providers can advertise their data and services through nevermined
+- [nevermined_consumer.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-xain/notebooks/nevermined_consumer.ipynb): shows how a data consumer access services and run computations on the data from the data providers
+- [federated_fraud_demo.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-xain/notebooks/federated_fraud_demo.ipynb): contains the actual machine learning code that is executed on the data providers infrastructure
+
+1. Start jupyter-lab
+```bash
+$ jupyter-lab
+```
+
+2. Run all cells of `nevermined_provider.ipynb`
+3. Run all cells of `nevermined_consumer.ipynb`
 
 ## Access the running demo
 

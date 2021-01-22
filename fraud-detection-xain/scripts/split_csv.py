@@ -18,10 +18,10 @@ def split_csv_file():
     output_file2 = (data_folder / "creditcard_part2.csv").resolve()
 
     print(f"writing file: {output_file1.as_posix()}")
-    df[: len(df) // 2].to_csv(output_file1.as_posix())
+    df[: len(df) // 2].to_csv(output_file1.as_posix(), index=False)
 
     print(f"writing file: {output_file2.as_posix()}")
-    df[len(df) // 2 :].to_csv(output_file2.as_posix())
+    df[len(df) // 2 :].to_csv(output_file2.as_posix(), index=False)
 
 
 if __name__ == "__main__":
