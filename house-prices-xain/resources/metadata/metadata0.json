@@ -12,7 +12,7 @@
         "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
         "checksumType": "MD5",
         "contentLength": "12057507",
-        "url": "https://raw.githubusercontent.com/nevermined-io/docs/master/resources/data_part_0.csv"
+        "url": "https://github.com/nevermined-io/fl-demo/raw/master/house-prices-xain/resources/data/data_part_0.csv"
       }
     ],
     "type": "dataset"

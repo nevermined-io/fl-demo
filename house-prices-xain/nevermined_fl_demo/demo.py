@@ -166,7 +166,7 @@ def demo():
     service0 = ddo_compute0.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement0 = ServiceAgreement.from_service_dict(service0.as_dictionary())
     agreement_id0 = nevermined.assets.order(
-        ddo_compute0.did, service_agreement0.index, consumer
+        ddo_compute0.did, service_agreement0.index, consumer, consumer
     )
     print(
         f"[DATA_SCIENTIST --> DATA_PROVIDER0] Requesting an agreement for compute to the data for asset0: {agreement_id0}"
@@ -185,7 +185,7 @@ def demo():
     service1 = ddo_compute1.get_service(service_type=ServiceTypes.CLOUD_COMPUTE)
     service_agreement1 = ServiceAgreement.from_service_dict(service1.as_dictionary())
     agreement_id1 = nevermined.assets.order(
-        ddo_compute1.did, service_agreement1.index, consumer
+        ddo_compute1.did, service_agreement1.index, consumer, consumer
     )
     print(
         f"[DATA_SCIENTIST --> DATA_PROVIDER1] Requesting an agreement for compute to the data for asset1: {agreement_id1}"
@@ -208,7 +208,7 @@ def demo():
         service_coordinator.as_dictionary()
     )
     agreement_id_coordinator = nevermined.assets.order(
-        ddo_compute_coordinator.did, service_agreement_coordinator.index, consumer
+        ddo_compute_coordinator.did, service_agreement_coordinator.index, consumer, consumer
     )
     print(
         f"[DATA_SCIENTIST --> COORDINATOR_PROVIDER] Requesting an agreement for coordinator compute: {agreement_id_coordinator}"
