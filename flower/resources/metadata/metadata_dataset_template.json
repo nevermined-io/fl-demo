@@ -8,7 +8,7 @@
     "files": [
       {
         "index": 0,
-        "contentType": "text/text",
+        "contentType": "application/octet-stream",
         "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
         "checksumType": "MD5",
         "contentLength": "12057507",
