@@ -1,0 +1,26 @@
+{
+  "main": {
+    "name": "Fraud Demo Workflow",
+    "dateCreated": null,
+    "author": "Nevermined Consumer",
+    "license": "",
+    "price": "0",
+    "type": "workflow",
+    "workflow": {
+      "stages": [
+        {
+          "index": 0,
+          "input": [
+            {
+              "index": 0,
+              "id": null
+            }
+          ],
+          "transformation": {
+            "id": null
+          }
+        }
+      ]
+    }
+  }
+}

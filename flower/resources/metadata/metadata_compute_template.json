@@ -1,0 +1,11 @@
+{
+  "main": {
+    "name": "Coordinator",
+    "dateCreated": null,
+    "author": "Nevermined Coordinator Provider",
+    "license": "",
+    "price": null,
+    "files": [],
+    "type": "compute"
+  }
+}

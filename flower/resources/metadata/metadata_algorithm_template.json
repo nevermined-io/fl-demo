@@ -1,0 +1,33 @@
+{
+  "main": {
+    "name": "Fraud Demo Algorithm",
+    "dateCreated": null,
+    "author": "Nevermined Consumer",
+    "license": "",
+    "price": "0",
+    "files": [
+      {
+        "index": 0,
+        "contentType": "text/text",
+        "checksum": "0x52b5c93b82dd9e7ecc3d9fdf4755f7f69a54484941897dc517b4adfe3bbc3377",
+        "checksumType": "MD5",
+        "contentLength": "12057507",
+        "url": null
+      }
+    ],
+    "type": "algorithm",
+    "algorithm": {
+      "language": "python",
+      "format": "py",
+      "version": "0.1.0",
+      "entrypoint": null,
+      "requirements": {
+        "container": {
+          "image": null,
+          "tag": null,
+          "checksum": "sha256:53ad3a03b2fb240b6c494339821e6638cd44c989bcf26ec4d51a6a52f7518c1d"
+        }
+      }
+    }
+  }
+}
