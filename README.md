@@ -12,9 +12,10 @@ the data so that the data can remain private.
 
 You can find the instructions of how to run the demos from the READMEs in each demo individual folders:
 
-- [House Prices](house-prices-xain/README.md): Keras + Xaynet FL framework
-- [Creditcard Fraud Sherpa](fraud-detection-sherpa/README.md): scikit-learn + sherpa FL framework
-- [Creditcard Fraud Xaynet](fraud-detection-xain/README.md)
+- [House Prices](house-prices-xain/README.md): Keras + [Xaynet FL framework](https://github.com/xaynetwork/xaynet)
+- [Creditcard Fraud Sherpa](fraud-detection-sherpa/README.md): scikit-learn + [Sherpa FL framework](https://github.com/sherpaai/Sherpa.ai-Federated-Learning-Framework)
+- [Creditcard Fraud Xaynet](fraud-detection-xain/README.md): scikit-learn + [Xaynet FL framework](https://github.com/xaynetwork/xaynet)
+- [Creditcard Fraud Flower](fraud-detection-flower/README.md): scikit-learn + [Flower FL framework](https://github.com/adap/flower)
 
 ## Attribution
 
@@ -32,7 +33,7 @@ example software developed by [XAIN](https://www.xain.io/).
 Copyright 2020 Keyko GmbH
 This product includes software developed at
 BigchainDB GmbH, Ocean Protocol (https://www.oceanprotocol.com/),
-and XAIN (https://www.xain.io/)
+XAIN (https://www.xain.io/), Adap (https://adap.com/en), and sherpa.ai (https://sherpa.ai/).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

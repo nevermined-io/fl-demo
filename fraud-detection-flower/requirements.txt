@@ -1,0 +1,5 @@
+nevermined-sdk-py==0.7.0
+papermill~=2.2.2
+jupyter~=1.0.0
+jupyterlab~=2.2.9
+flwr==0.15.0
