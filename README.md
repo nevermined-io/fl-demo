@@ -15,7 +15,7 @@ You can find the instructions of how to run the demos from the READMEs in each d
 - [House Prices](house-prices-xain/README.md): Keras + [Xaynet FL framework](https://github.com/xaynetwork/xaynet)
 - [Creditcard Fraud Sherpa](fraud-detection-sherpa/README.md): scikit-learn + [Sherpa FL framework](https://github.com/sherpaai/Sherpa.ai-Federated-Learning-Framework)
 - [Creditcard Fraud Xaynet](fraud-detection-xain/README.md): scikit-learn + [Xaynet FL framework](https://github.com/xaynetwork/xaynet)
-- [Creditcard Fraud Flower](fraud-detection-flower/README.md): scikit-learn + [Flower FL framework](https://github.com/adap/flower)
+- [Image Classification Flower](image-classification-flower/README.md): Keras + [Flower FL framework](https://github.com/adap/flower)
 
 ## Attribution
 

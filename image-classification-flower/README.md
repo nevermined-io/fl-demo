@@ -1,13 +1,11 @@
-# Creditcard Fraud Detection Federated Learning Demo
+# Image classification Federated Learning Demo
 
 ## Description
 
 In this demo we will be using version 0.15.0 of the [Flower Federated Learning
 Framework](https://github.com/adap/flower).
 
-In this particular example the goal of the model to train is to detect fraudulent credit card transactions given two different datasets. This dataset was downloaded from
-[kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud)
-and split into two.
+In this particular example the goal of the model to train classify images given two different datasets. The two datasets is the [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html) split in two
 
 ## Use Case
 
@@ -38,7 +36,7 @@ $ ./start_nevermined.sh --latest --no-marketplace --compute
 $ ./scripts/wait_for_compute_api.sh
 ```
 
-2. Inside the [`fraud-detection-flower`](https://github.com/nevermined-io/fl-demo/tree/master/fraud-detection-flower)
+2. Inside the [`image-classification-flower`](https://github.com/nevermined-io/fl-demo/tree/master/image-classification-flower)
    setup the demo
 
 ```bash
@@ -53,10 +51,10 @@ $ ./scripts/wait_for_migration_and_extract_keeper_artifacts.sh
 
 The demo contains four jupyter notebooks
 
-- [nevermined_provider.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-flower/notebooks/nevermined_provider.ipynb): shows how data providers can advertise their data and services through nevermined
-- [nevermined_consumer.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-flower/notebooks/nevermined_consumer.ipynb): shows how a data consumer access services and run computations on the data from the data providers
-- [flwr_client.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-flower/notebooks/flwr_client.ipynb): contains the actual machine learning code that is executed on the data providers infrastructure using the Flower FL Framework
-- [flwr_server.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/fraud-detection-flower/notebooks/flwr_server.ipynb): contains the coordinator service of the Flower FL Framework
+- [nevermined_provider.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/image-classification-flower/notebooks/nevermined_provider.ipynb): shows how data providers can advertise their data and services through nevermined
+- [nevermined_consumer.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/image-classification-flower/notebooks/nevermined_consumer.ipynb): shows how a data consumer access services and run computations on the data from the data providers
+- [flwr_client.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/image-classification-flower/notebooks/flwr_client.ipynb): contains the actual machine learning code that is executed on the data providers infrastructure using the Flower FL Framework
+- [flwr_server.ipynb](https://github.com/nevermined-io/fl-demo/blob/master/image-classification-flower/notebooks/flwr_server.ipynb): contains the coordinator service of the Flower FL Framework
 
 1. Start jupyter-lab
 ```bash
