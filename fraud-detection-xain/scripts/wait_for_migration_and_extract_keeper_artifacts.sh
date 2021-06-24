@@ -3,11 +3,12 @@
 RETRY_COUNT=0
 COMMAND_STATUS=1
 
+rm -rf artifacts
 mkdir -p artifacts
 
 until [ $COMMAND_STATUS -eq 0 ] || [ $RETRY_COUNT -eq 120 ]; do
-  nevermined_contracts_docker_id=$(docker container ls | grep nevermined-contracts | awk '{print $1}')
-  docker cp ${nevermined_contracts_docker_id}:/nevermined-contracts/artifacts/ready ./artifacts/
+  nevermined_keeper_docker_id=$(docker container ls | grep nevermined-keeper-node | awk '{print $1}')
+  docker cp ${nevermined_keeper_docker_id}:/nevermined-contracts/artifacts/ready ./artifacts/
   COMMAND_STATUS=$?
   sleep 5
   let RETRY_COUNT=RETRY_COUNT+1
@@ -18,4 +19,4 @@ if [ $COMMAND_STATUS -ne 0 ]; then
   exit 1
 fi
 
-docker cp ${nevermined_contracts_docker_id}:/nevermined-contracts/artifacts/. ./artifacts/
+docker cp ${nevermined_keeper_docker_id}:/nevermined-contracts/artifacts/. ./artifacts/
