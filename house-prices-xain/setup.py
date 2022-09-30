@@ -10,7 +10,7 @@ with open("README.md") as readme_file:
 
 install_requirements = [
     "nevermined-sdk-py==0.7.0",
-    "joblib==0.14.1",
+    "joblib==1.2.0",
     "pandas==1.0.1",
     "py7zr==0.4.4",
     "scikit-learn==0.22.1",
