@@ -15,7 +15,7 @@ install_requirements = [
     "py7zr==0.4.4",
     "scikit-learn==0.22.1",
     "scipy==1.4.1",
-    "tensorflow==2.2.0",
+    "tensorflow==2.9.3",
     "numpy~=1.15",
     "tabulate~=0.8",
     "xain-sdk==0.8.0",
