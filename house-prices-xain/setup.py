@@ -12,7 +12,7 @@ install_requirements = [
     "nevermined-sdk-py==0.7.0",
     "joblib==0.14.1",
     "pandas==1.0.1",
-    "py7zr==0.4.4",
+    "py7zr==0.20.2",
     "scikit-learn==0.22.1",
     "scipy==1.4.1",
     "tensorflow==2.2.0",
